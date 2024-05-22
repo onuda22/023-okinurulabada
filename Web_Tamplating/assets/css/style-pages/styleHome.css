@@ -75,3 +75,9 @@ i:hover {
     margin: 0px;
 }
 
+/* ----------------------------- */
+
+/* -------Card Product---------- */
+.container .card.product {
+    width: 13rem;
+}
