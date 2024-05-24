@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+body#content {
+    background-color: #eaeaea;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #2d2d2d;
+}
+
+/* Header Navbar */
+@media screen and (max-width: 994px) {
+    .navbar-nav {
+        text-align: center;
+    }
+}
+
+/* Logo */
+.logo img {
+    height: 40px;
+}
+
+/* Tombol Search */
+#navbarNav form input.form-control {
+    font-size: 12px;
+}
+@media screen and (min-width: 994px) {
+    #navbarNav form input.form-control {
+        width: 600px;
+    }
+}
+
+/* Menu */
+.navbar-nav .nav-item .nav-link.active i {
+    color: green;
+}
+
+i:hover {
+    color: green;
+}
+
+/* Tombol SignIn */
+
+/* Header Navbar */
+/* 
+*/
+
+/* Product */
+.container .row-product {
+    background-color: white;
+    margin: 0px;
+    padding: 5px;
+    padding-top: 16px;
+}
+
+.container figure.figure img {
+    border-radius: 5px;
+    width: 450px;
+}
+
+.break-line {
+    border-bottom: 1px solid #dbd8d8;
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+.map-marker-style {
+    color: green;
+}
+
+.farmer-page {
+    color: #2d2d2d;
+}
+
+.farmer-page:hover {
+    color: green;
+}
+
+.mr-1 {
+    margin-right: 10px;
+}
+
+.mr-2 {
+    margin-right: 50px;
+}
+
+.submit button.btn-submit {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: green;
+    --bs-btn-border-color: green;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #157347;
+    --bs-btn-hover-border-color: #198754;
+    --bs-btn-focus-shadow-rgb: 60, 153, 110;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #198754;
+    --bs-btn-active-border-color: #13653f;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: green;
+    --bs-btn-disabled-border-color: green;
+  }
+/* End Product */
+
+/* ----------Kategori-------- */
+.title-category {
+    background-color: white;
+    padding: 5px 10px;
+}
+
+.img-category {
+    width: 50px;
+}
+
+.img-category:hover{
+    transform: scale(1.2);
+    transition: 0.2s;
+}
+
+.container .row-container {
+    background-color: white;
+    margin: 0px;
+}
+
+/* ----------------------------- */
+
+/* -------Card Product---------- */
+.container .card.product {
+    cursor: pointer;
+}
+
+.container .card.product:hover {
+    border: 1px solid green;
+}

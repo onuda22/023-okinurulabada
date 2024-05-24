@@ -78,9 +78,9 @@ i:hover {
 /* ----------------------------- */
 
 /* -------Card Product---------- */
-/* .container .card.product {
-    width: 12rem;
-} */
+.container .card.product {
+    cursor: pointer;
+}
 
 .container .card.product:hover {
     border: 1px solid green;
