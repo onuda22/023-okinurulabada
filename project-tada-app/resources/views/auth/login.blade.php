@@ -18,13 +18,18 @@
   
   <!-- Pills content -->
         <div class="tab-content">
+            {{ $status ??  '' }}
+
             <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
-            <form>
+            <form method="POST" action="{{ route('login.form') }}" enctype="multipart/form-data">
                 @csrf
                 <!-- Email input -->
                 <div data-mdb-input-init class="form-outline mb-4">
-                <input type="email" name="name" id="loginName" class="form-control" />
-                <label class="form-label" for="loginName">Email or username</label>
+                <input type="text" name="phone" id="loginName" class="form-control" />
+                <label class="form-label" for="loginName">Phone Number</label>
+                @error('phone')
+                    {{ $message }}
+                @enderror
                 </div>
         
                 <!-- Password input -->

@@ -12,7 +12,7 @@ Route::get('/products', function () {
 })->name('products');
 
 Route::get('/login', [AuthController::class, 'loginView'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login/form', [AuthController::class, 'login'])->name('login.form');
 
 Route::get('/register', [AuthController::class, 'registerView'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register/form', [AuthController::class, 'register'])->name('register.form');
