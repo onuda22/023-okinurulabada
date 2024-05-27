@@ -18,6 +18,7 @@
   
   <!-- Pills content -->
         <div class="tab-content">
+            {{-- Munculin Error --}}
             {{ $status ??  '' }}
 
             <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
@@ -38,13 +39,13 @@
                 <label class="form-label" for="loginPassword">Password</label>
                 </div>
         
-                <!-- 2 column grid layout -->
+                {{-- <!-- 2 column grid layout -->
                 <div class="row mb-4">
                 <div class="col-md-6 d-flex justify-content-center">
                     <!-- Simple link -->
                     <a href="#!">Forgot password?</a>
                 </div>
-                </div>
+                </div> --}}
         
                 <!-- Submit button -->
                 <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Sign in</button>

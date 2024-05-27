@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -14,7 +15,6 @@ class AuthController extends Controller
     // Logic for Login
     function login(Request $request)
     {
-        dd($request->all());
         $input = [
             $request->phone,
             $request->password
@@ -35,9 +35,15 @@ class AuthController extends Controller
             return redirect()->route('login')->with('error', 'Invalid Phone Number or Password');
         }
     }
+    // Logic for Register
 
-    function registerView()
+    function registerCreate(Request $request)
     {
-        return view('auth.register');
+        $user = new User();
+        $user->name = $request->name;
+        $user->phone_number = $request->phone;
+        $user->password = Hash::make($request->password);
+        $user->save();
+        return back()->with('success', 'Registrasi Berhasil');
     }
 }

@@ -15,21 +15,21 @@ return new class extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
             $table->longText('name');
-            $table->timestamps();
+            // $table->timestamps();
         });
 
         // Table Users //
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->longText('name');
-            $table->longText('phone_number')->unique();
+            $table->unsignedBigInteger('id_role')->after('id');
+            $table->longText('name')->after('id_role');
+            $table->longText('phone_number')->unique()->after('name');
+            $table->longText('password')->after('phone_number');
             $table->longText('address');
-            $table->longText('password');
-            $table->unsignedBigInteger('id_role');
             $table->rememberToken()->nullable();
             $table->timestamps();
 
-            $table->foreign('id_role')->references('id')->on('roles')->onUpdate('cascade')->onDelete('cascade');
+            // $table->foreign('id_role')->references('id')->on('roles')->onUpdate('cascade')->onDelete('cascade');
         });
 
         // Table Product //
@@ -44,7 +44,7 @@ return new class extends Migration
             $table->longText('desc');
             $table->timestamps();
 
-            $table->foreign('id_user')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            // $table->foreign('id_user')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
 
         // Table Order //
@@ -61,8 +61,8 @@ return new class extends Migration
             $table->dateTime('done_date');
             $table->timestamps();
 
-            $table->foreign('id_farmer')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('id_merchant')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            // $table->foreign('id_farmer')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            // $table->foreign('id_merchant')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
 
         // Table Detail Order //
@@ -74,8 +74,8 @@ return new class extends Migration
             $table->longText('product_quantity');
             $table->timestamps();
 
-            $table->foreign('id_order')->references('id')->on('order')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('id_product')->references('id')->on('product')->onUpdate('cascade')->onDelete('cascade');
+            // $table->foreign('id_order')->references('id')->on('order')->onUpdate('cascade')->onDelete('cascade');
+            // $table->foreign('id_product')->references('id')->on('product')->onUpdate('cascade')->onDelete('cascade');
         });
 
         // Table Sessions // -- Ditambahkan karena tidak bisa masuk ke tampilan awal
@@ -100,5 +100,6 @@ return new class extends Migration
         Schema::dropIfExists('product');
         Schema::dropIfExists('order');
         Schema::dropIfExists('detail_order');
+        Schema::dropIfExists('sessions');
     }
 };
