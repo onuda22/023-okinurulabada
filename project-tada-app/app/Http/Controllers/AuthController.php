@@ -8,12 +8,14 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    function loginView()
+    function login()
     {
         return view('auth.login');
     }
+
     // Logic for Login
-    function login(Request $request)
+    // Masih Perlu Perbaikan
+    function loginAuth(Request $request)
     {
         $input = [
             $request->phone,
@@ -21,9 +23,8 @@ class AuthController extends Controller
         ];
 
         $request->validate([
-            'phone' => 'required|alphanum
-            |max:1',
-            'password' => 'required|min:8'
+            'phone' => 'required',
+            'password' => 'required|min:6'
         ]);
 
         $user = User::where('phone_number', $input[0])->where('password', $input[1])->first();
@@ -35,15 +36,52 @@ class AuthController extends Controller
             return redirect()->route('login')->with('error', 'Invalid Phone Number or Password');
         }
     }
+    // -------------------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------------------------
+
+    function register()
+    {
+        return view('auth.register');
+    }
     // Logic for Register
 
     function registerCreate(Request $request)
     {
+        // Register Data Validation
+        $request->validate([
+            'name' => 'required|string|max=255',
+            'phone' => 'required|string|max=255',
+            'password' => 'required|string|min:6',
+            'kampung' => 'required|string|max:255',
+            'rt' => 'required|string|max:255',
+            'rw' => 'required|string|max:255',
+            'desakel' => 'required|string|max:255',
+            'kecamatan' => 'required|string|max:255',
+            'kabkota' => 'required|string|max:255',
+            'provinsi' => 'required|string|max:255',
+            'id_role' => 'required|string|in:petani,pedagang'
+        ]);
+
+        // Map score role
+        $roleValue = $request->role === 'petani' ? 1 : 2; // 1 = petani, 2 = pedagang
+
+        // Grouping value for address
+        $address = $request->kampung . ', RT.' . $request->rt . ', RW.' . $request->rw .
+            ', Desa/Kel. ' . $request->desakel . ', Kec. ' . $request->kecamatan .
+            ', Kab/Kota ' . $request->kabkota . ', ' . $request->provinsi;
+
+        // Save data to database
         $user = new User();
+        $user->id_role = $roleValue;
         $user->name = $request->name;
         $user->phone_number = $request->phone;
         $user->password = Hash::make($request->password);
+        $user->address = $address;
         $user->save();
-        return back()->with('success', 'Registrasi Berhasil');
+
+        // Redirect atau berikan respons sesuai kebutuhan Anda
+        return redirect()->route('login')->with('success', 'Akun Anda Berhasil Didaftarkan. Silahkan LogIn');
+        // return back()->with('success', 'Akun Anda Berhasil Didaftarkan');
     }
 }

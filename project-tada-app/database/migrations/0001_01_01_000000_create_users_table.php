@@ -21,10 +21,10 @@ return new class extends Migration
         // Table Users //
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_role')->after('id');
-            $table->longText('name')->after('id_role');
-            $table->longText('phone_number')->unique()->after('name');
-            $table->longText('password')->after('phone_number');
+            $table->unsignedBigInteger('id_role');
+            $table->longText('name');
+            $table->longText('phone_number')->unique();
+            $table->longText('password');
             $table->longText('address');
             $table->rememberToken()->nullable();
             $table->timestamps();
