@@ -26,7 +26,7 @@ return new class extends Migration
             $table->longText('phone_number')->unique();
             $table->longText('password');
             $table->longText('address');
-            $table->rememberToken()->nullable();
+            // $table->rememberToken()->nullable();
             $table->timestamps();
 
             // $table->foreign('id_role')->references('id')->on('roles')->onUpdate('cascade')->onDelete('cascade');
@@ -79,11 +79,19 @@ return new class extends Migration
         });
 
         // Table Sessions // -- Ditambahkan karena tidak bisa masuk ke tampilan awal
+        // Schema::create('sessions', function (Blueprint $table) {
+        //     // $table->longText('id')->primary();
+        //     $table->id();
+        //     $table->foreignId('user_id')->nullable()->index();
+        //     $table->longText('ip_address', 45)->nullable();
+        //     $table->text('user_agent')->nullable();
+        //     $table->longText('payload');
+        //     $table->integer('last_activity')->index();
+        // });
         Schema::create('sessions', function (Blueprint $table) {
-            // $table->longText('id')->primary();
-            $table->id();
+            $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();
-            $table->longText('ip_address', 45)->nullable();
+            $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');
             $table->integer('last_activity')->index();

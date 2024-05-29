@@ -27,9 +27,9 @@
             <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
             <form method="POST" action="{{ route('loginAuth') }}" enctype="multipart/form-data">
                 @csrf
-                <!-- Email input -->
+                <!-- Phone Number input -->
                 <div data-mdb-input-init class="form-outline mb-4">
-                <input type="text" name="phone" id="loginPhone" class="form-control" />
+                <input type="text" name="phone_number" id="loginPhone" class="form-control" />
                 <label class="form-label" for="loginPhone">Phone Number</label>
                 @error('phone')
                     {{ $message }}

@@ -26,7 +26,7 @@
 
                     <!-- Phone Number input -->
                     <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="text" name="phone" id="registerPhoneNumber" class="form-control" />
+                    <input type="text" name="phone_number" id="registerPhoneNumber" class="form-control" />
                     <label class="form-label" for="registerPhoneNumber">Nomor Hp</label>
                     </div>
                     

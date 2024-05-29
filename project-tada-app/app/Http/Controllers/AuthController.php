@@ -14,7 +14,6 @@ class AuthController extends Controller
     }
 
     // Logic for Login
-    // Masih Perlu Perbaikan
     public function loginAuth(Request $request)
     {
         $input = [
@@ -23,32 +22,24 @@ class AuthController extends Controller
         ];
 
         $request->validate([
-            'phone' => 'required',
+            'phone_number' => 'required',
             'password' => 'required|min:6'
         ]);
 
-        // $user = User::where('phone_number', $input[0])->where('password', $input[1])->first();
+        // Cara 1
         $user = User::where('phone_number', $input[0])->first();
-        // if ($user) {
-        //     $request->session()->put('user', $user);
-        //     return redirect()->route('home');
-        // } else {
-        //     return back()->with('status', 'Gagal');
-        //     return redirect()->route('login')->with('error', 'Invalid Phone Number or Password');
-        // }
-        if ($user == null) {
-            return redirect()->back()->with('error', 'Invalid Phone Number');
+        if ($user) {
+            if (Hash::check($input[1], $user->password)) {
+                $request->session()->put('isLogged', true);
+                // $request->session()->put('userId', $user->id);
+                // $request->session()->put('role', $user->id_role);
+                $request->session()->put('user', $user);
+                return redirect()->route('home');
+            }
+        } else {
+            return back()->with('status', 'Gagal');
+            return redirect()->route('login')->with('error', 'Invalid Phone Number or Password');
         }
-        if (!Hash::check($input[1], $user->password)) {
-            return redirect()->back()->with('error', 'Invalid Password');
-        }
-
-        $request->session()->regenerate();
-        $request->session()->put('isLogged', true);
-        $request->session()->put('userId', $user->id);
-        $request->session()->put('role', $user->id_role);
-
-        return redirect()->route('home');
     }
 
     public function logout(Request $request)
@@ -57,7 +48,7 @@ class AuthController extends Controller
         session()->forget('userId');
         session()->forget('role');
 
-        return redirect()->route('auth.login');
+        return redirect()->route('login');
     }
     // -------------------------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------------------------
@@ -73,24 +64,24 @@ class AuthController extends Controller
     {
         // Register Data Validation
         $request->validate([
-            'name' => 'required|string|max=255',
-            'phone' => 'required|string|max=255|unique:users',
+            'name' => 'required|string',
+            'phone_number' => 'required|string',
             'password' => 'required|string|min:6',
-            'kampung' => 'required|string|max:255',
-            'rt' => 'required|string|max:255',
-            'rw' => 'required|string|max:255',
-            'desakel' => 'required|string|max:255',
-            'kecamatan' => 'required|string|max:255',
-            'kabkota' => 'required|string|max:255',
-            'provinsi' => 'required|string|max:255',
-            'id_role' => 'required|string|in:petani,pedagang'
+            'kampung' => 'required|string',
+            'rt' => 'required|string',
+            'rw' => 'required|string',
+            'desakel' => 'required|string',
+            'kecamatan' => 'required|string',
+            'kabkota' => 'required|string',
+            'provinsi' => 'required|string',
+            'role' => 'required|string|in:petani,pedagang'
         ], [
             'name.required' => 'Nama harus diisi',
-            'phone.required' => 'Nomor telepon selular harus diisi',
-            'phone.unique' => 'Nomor telepon sudah terdaftar, Mohon gunakan nomor yang lain',
+            'phone_number.required' => 'Nomor telepon selular harus diisi',
+            'phone_number.unique' => 'Nomor telepon sudah terdaftar, Mohon gunakan nomor yang lain',
             'password.required' => 'Password harus diisi',
             'password.min' => 'Password harus diisi minimun 6 karakter',
-            'id_role.required' => 'Pekerjan harus diisi',
+            'role.required' => 'Pekerjan harus diisi',
             'rt.required' => 'RT harus diisi',
             'rw.required' => 'RW harus diisi',
             'kampung.required' => 'Kampung harus diisi',
@@ -112,20 +103,12 @@ class AuthController extends Controller
         User::insert([
             'id_role' => $roleValue,
             'name' => $request->name,
-            'phone_number' => $request->phone,
+            'phone_number' => $request->phone_number,
             'password' => Hash::make($request->password),
             'address' => $address
         ]);
-        // $user = new User();
-        // $user->id_role = $roleValue;
-        // $user->name = $request->name;
-        // $user->phone_number = $request->phone;
-        // $user->password = Hash::make($request->password);
-        // $user->address = $address;
-        // $user->save();
 
         // Redirect atau berikan respons sesuai kebutuhan Anda
         return redirect()->route('login')->with('success', 'Akun Anda Berhasil Didaftarkan. Silahkan LogIn');
-        // return back()->with('success', 'Akun Anda Berhasil Didaftarkan');
     }
 }
