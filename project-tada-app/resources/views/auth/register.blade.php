@@ -17,7 +17,7 @@
         <!-- Pills navs -->
             <div class="tab-pane fade show active" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
                 <form class="mt-5" method="POST" action="{{ route('registerCreate') }}">
-                    
+                    @csrf
                     <!-- Name input -->
                     <div data-mdb-input-init class="form-outline mb-4">
                     <input type="text" name="name" id="registerName" class="form-control" />
