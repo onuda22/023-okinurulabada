@@ -2,22 +2,31 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
+// Wellcome Page
 Route::get('/', function () {
     return view('home');
 })->name('home');
 
+// Product Single Page
 Route::get('/products', function () {
     return view('products');
 })->name('products');
 
-// Route::get('/login', [AuthController::class, 'loginView'])->name('login');
-// Route::post('/login/form', [AuthController::class, 'login'])->name('login.form');
+// Add Product
+// Route::get('/farmer/addproduct', function () {
+//     return view('farmer.productcreate');
+// })->name('products.create');
 
-// Route::get('/register', [AuthController::class, 'registerView'])->name('register');
-// Route::post('/register/form', [AuthController::class, 'register'])->name('register.form');
+// Farmer View Product
+Route::resource('/farmer/products', ProductController::class);
 
+// //route resource for products
+// Route::resource('/products', \App\Http\Controllers\ProductController::class);
+
+// Authentication
 Route::group(['middleware' => 'guest'], function () {
     // Register
     Route::get('/register', [AuthController::class, 'register'])->name('register');
