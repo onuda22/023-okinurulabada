@@ -13,7 +13,9 @@ use Illuminate\Http\RedirectResponse;
 
 //import Http Request
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
+
+//import Facades Storage
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -106,5 +108,105 @@ class ProductController extends Controller
 
         //render view with product
         return view('products.show', compact('product'));
+    }
+
+    /**
+     * edit
+     *
+     * @param  mixed $id
+     * @return View
+     */
+    public function edit(string $id): View
+    {
+        //get product by ID
+        $product = Product::findOrFail($id);
+
+        //render view with product
+        return view('products.edit', compact('product'));
+    }
+
+    /**
+     * update
+     *
+     * @param  mixed $request
+     * @param  mixed $id
+     * @return RedirectResponse
+     */
+    public function update(Request $request, $id): RedirectResponse
+    {
+        //validate form
+        $request->validate([
+            'image'         => 'image|mimes:jpeg,jpg,png|max:2048',
+            'title'         => 'required|min:5', //product_name
+            'description'   => 'required|min:10', //desc
+            'price'         => 'required|numeric',
+            'stock'         => 'required|numeric',
+            'unit'          => 'required',
+            'weight'        => 'required',
+            'category'      => 'required'
+        ]);
+
+        //get product by ID
+        $product = Product::findOrFail($id);
+
+        // Get Unit
+        $unit = $request->unit . " " . $request->weight;
+
+        //check if image is uploaded
+        if ($request->hasFile('image')) {
+
+            //upload new image
+            $image = $request->file('image');
+            $image->storeAs('public/products', $image->hashName());
+
+            //delete old image
+            Storage::delete('public/products/' . $product->image);
+
+            //update product with new image
+            $product->update([
+                'image'         => $image->hashName(),
+                'product_name'  => $request->title, //product_name
+                'desc'          => $request->description, // desc
+                'price'         => $request->price,
+                'stock'         => $request->stock,
+                'unit'          => $unit,
+                'category'      => $request->category
+            ]);
+        } else {
+
+            //update product without image
+            $product->update([
+                'product_name'  => $request->title, //product_name
+                'desc'          => $request->description, // desc
+                'price'         => $request->price,
+                'stock'         => $request->stock,
+                'unit'          => $unit,
+                'category'      => $request->category
+            ]);
+        }
+
+        //redirect to index
+        return redirect()->route('products.index')->with(['success' => 'Data Berhasil Diubah!']);
+    }
+
+    /**
+     * destroy
+     *
+     * @param  mixed $id
+     * @return RedirectResponse
+     */
+    public function destroy($id): RedirectResponse
+    {
+        //get product by ID
+        $product = Product::findOrFail($id);
+
+        //delete image
+        Storage::delete('public/products/' . $product->image);
+
+        //delete product
+        $product->delete();
+
+        //redirect to index
+        return redirect()->route('products.index')->with(['success' => 'Data Berhasil Dihapus!']);
     }
 }
