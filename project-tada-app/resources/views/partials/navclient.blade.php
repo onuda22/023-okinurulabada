@@ -33,6 +33,21 @@
         <!-- Menu -->
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{{ route('status.order') }}">
+              Status Order
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{{ route('cart') }}">
+              <i class="fa fa-shopping-basket fa-lg"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('notification') }}">
+              <i class="fa fa-bell fa-lg"></i>
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{{ route('login') }}">
               <i class="fas fa-user fa-lg"></i>
             </a>

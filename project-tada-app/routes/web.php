@@ -5,27 +5,34 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
-// Wellcome Page
-Route::get('/', function () {
-    return view('home');
-})->name('home');
 
-// Product Single Page
-Route::get('/products', function () {
-    return view('products');
-})->name('products');
 
-// Add Product
-// Route::get('/farmer/addproduct', function () {
-//     return view('farmer.productcreate');
-// })->name('products.create');
+
 Route::middleware(['auth'])->group(function () {
+    // Wellcome Page
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    // Cart
+    Route::get('/cart', function () {
+        return view('cart');
+    })->name('cart');
+    // Notification
+    Route::get('/notification', function () {
+        return view('notification');
+    })->name('notification');
+    // Status Order
+    Route::get('/status', function () {
+        return view('status');
+    })->name('status.order');
+    // Product Single Page
+    Route::get('/products', function () {
+        return view('products');
+    })->name('products');
+
     // Farmer View Product
     Route::resource('/farmer/products', ProductController::class);
+    // Logout
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
-
-// //route resource for products
-// Route::resource('/products', \App\Http\Controllers\ProductController::class);
 
 // Authentication
 Route::group(['middleware' => 'guest'], function () {
@@ -35,8 +42,6 @@ Route::group(['middleware' => 'guest'], function () {
     // Login
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/login/auth', [AuthController::class, 'loginAuth'])->name('loginAuth');
-    // Logout
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
     //Tampilkan data di session
     Route::get('/session/tampil', [AuthController::class, 'tampilkanSession']);

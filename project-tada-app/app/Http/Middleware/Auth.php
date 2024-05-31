@@ -17,9 +17,11 @@ class Auth
     public function handle(Request $request, Closure $next): Response
     {
         if (Session::has('user')) {
-            return $next($request);
+            if (session('user')['id_role'] === 3) {
+                return $next($request);
+            }
         } else {
-            return redirect()->route('home');
+            return redirect()->route('login');
         }
     }
 }

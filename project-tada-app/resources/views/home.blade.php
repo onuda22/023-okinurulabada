@@ -82,7 +82,7 @@
           <div class="menu-category mt-3">
             <a href="#">
               <img
-              src="assets/image/kategori-buah.svg"
+              src="{{ asset('assets/image/kategori-buah.svg') }}"
               alt="kategori-1"
               class="img-category"
               />
@@ -95,7 +95,7 @@
           <div class="menu-category mt-3">
             <a href="#">
               <img
-              src="assets/image/kategori-sayur.svg"
+              src="{{ asset('assets/image/kategori-sayur.svg') }}"
               alt="kategori-2"
               class="img-category"
               />
@@ -108,7 +108,7 @@
           <div class="menu-category mt-3">
             <a href="#">
               <img
-              src="assets/image/kategori-rempah.svg"
+              src="{{ asset('assets/image/kategori-rempah.svg') }}"
               alt="kategori-3"
               class="img-category"
               />
@@ -121,7 +121,7 @@
           <div class="menu-category mt-3">
             <a href="#">
               <img
-              src="assets/image/kategori-ubi.svg"
+              src="{{ asset('assets/image/kategori-ubi.svg') }}"
                 alt="kategori-4"
                 class="img-category"
                 />
@@ -134,7 +134,7 @@
             <div class="menu-category mt-3">
               <a href="#">
                 <img
-                src="assets/image/kategori-jamur.svg"
+                src="{{ asset('assets/image/kategori-jamur.svg') }}"
                 alt="kategori-5"
                 class="img-category"
                 />
@@ -147,7 +147,7 @@
             <div class="menu-category mt-3">
               <a href="#">
               <img
-              src="assets/image/kategori-biji.svg"
+              src="{{ asset('assets/image/kategori-biji.svg') }}"
               alt="kategori-6"
               class="img-category"
               />
@@ -166,26 +166,33 @@
       </div>
       <div class="row mt-2">
         <!--  -->
-        <div class="col-lg2 col-md-2 col-sm-4 col-6 mt-3">
-          <a
-          class="card product text-decoration-none text-lg"
-          href="{{ route('products') }}"
-          >
-          <img
-          src="assets/image/best-product-1.jpg"
-              class="card-img-top"
-              alt="..."
-            />
-            <div class="card-body">
-              <p class="card-title" style="font-size: 1.2em">Jeruk Mandarin</p>
-              <p class="card-text"><strong>Rp. 350.000</strong>/Box</p>
-              <p style="font-size: 12px">
-                <i class="fas fa-map-marker-alt ps-1"></i>
-                Jampangkulon-Sukabumi
-              </p>
+        @forelse ($issues as $issue)
+            <div class="col-lg2 col-md-2 col-sm-4 col-6 mt-3">
+              <a
+              class="card product text-decoration-none text-lg"
+              href="{{ route('products') }}"
+              >
+              <img
+                  src="{{ asset('/storage/products/'.$issue->image) }}"
+                  class="card-img-top"
+                  alt="..."
+                />
+                <div class="card-body">
+                  <p class="card-title" style="font-size: 1.2em">{{ $issue->product_name }}</p>
+                  <p class="card-text"><strong>{{ "Rp " . number_format($issue->price,2,',','.') }}</strong>/{{ $issue->unit }}</p>
+                  <p style="font-size: 12px">
+                    <i class="fas fa-map-marker-alt ps-1"></i>
+                    {{  $issue->user_name }}
+                  </p>
+                </div>
+              </a>
             </div>
-          </a>
-        </div>
+        @empty
+            <div class="alert alert-danger">
+                Data Products belum Tersedia.
+            </div>
+        @endforelse
+        
         <!--  -->
         
         <!--  -->
