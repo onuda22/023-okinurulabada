@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container">
       <a class="navbar-brand logo" href="{{ route('home') }}">
-        <img src="assets/image/logo.png" alt="Logo TADA" />
+        <img src="{{ asset('assets/image/logo.png') }}" alt="Logo TADA" />
       </a>
       <button
         class="navbar-toggler"

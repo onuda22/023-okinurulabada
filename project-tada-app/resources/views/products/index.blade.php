@@ -5,8 +5,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div>
-                    <h3 class="text-center my-4">Tutorial Laravel 11 untuk Pemula</h3>
-                    <h5 class="text-center"><a href="https://santrikoding.com">www.santrikoding.com</a></h5>
+                    <h3 class="text-center my-4">Selamat Datang, {{ session('user')['name'] }}</h3>
                     <hr>
                 </div>
                 <div class="card border-0 shadow-sm rounded">
@@ -28,7 +27,7 @@
                                         <td class="text-center">
                                             <img src="{{ asset('/storage/products/'.$product->image) }}" class="rounded" style="width: 150px">
                                         </td>
-                                        <td>{{ $product->title }}</td>
+                                        <td>{{ $product->product_name }}</td>
                                         <td>{{ "Rp " . number_format($product->price,2,',','.') }}</td>
                                         <td>{{ $product->stock }}</td>
                                         <td class="text-center">

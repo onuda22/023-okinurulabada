@@ -40,6 +40,9 @@
                 <div data-mdb-input-init class="form-outline mb-4">
                 <input type="password" name="password" id="loginPassword" class="form-control" />
                 <label class="form-label" for="loginPassword">Password</label>
+                @error('phone')
+                    {{ $message }}
+                @enderror
                 </div>
         
                 {{-- <!-- 2 column grid layout -->

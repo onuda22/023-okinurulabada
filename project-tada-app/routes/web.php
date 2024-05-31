@@ -36,6 +36,9 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/login/auth', [AuthController::class, 'loginAuth'])->name('loginAuth');
     // Logout
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    //Tampilkan data di session
+    Route::get('/session/tampil', [AuthController::class, 'tampilkanSession']);
 });
 
 // Route::group(['middleware' => 'auth'], function () {

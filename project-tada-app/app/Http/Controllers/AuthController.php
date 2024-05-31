@@ -16,39 +16,59 @@ class AuthController extends Controller
     // Logic for Login
     public function loginAuth(Request $request)
     {
-        $input = [
-            $request->phone,
-            $request->password
-        ];
-
         $request->validate([
             'phone_number' => 'required',
             'password' => 'required|min:6'
+        ], [
+            'phone_number.required' => 'Nomor telepon selular harus diisi',
+            'password.required' => 'Nomor HP Harus Diisi',
+            'password.min' => 'Password harus diisi minimun 6 karakter'
         ]);
+
+        $input = [
+            $request->phone_number,
+            $request->password
+        ];
+
 
         // Cara 1
         $user = User::where('phone_number', $input[0])->first();
         if ($user) {
-            if (Hash::check($input[1], $user->password)) {
+            $passwordCheck = Hash::check($input[1], $user->password);
+            // dd($passwordCheck);
+            if ($passwordCheck) {
                 $request->session()->put('isLogged', true);
+                $request->session()->put('user', $user);
                 // $request->session()->put('userId', $user->id);
                 // $request->session()->put('role', $user->id_role);
-                $request->session()->put('user', $user);
-                return redirect()->route('home');
+                if (session('user')['id_role'] == 2) {
+                    return redirect()->route('products.index')->with('success', 'Selamat Datang Petani');
+                }
+                return redirect()->route('home')->with('success', 'Anda Telah Login');
             }
         } else {
-            return back()->with('status', 'Gagal');
+            dd($user);
             return redirect()->route('login')->with('error', 'Invalid Phone Number or Password');
+        }
+    }
+
+    public function tampilkanSession(Request $request)
+    {
+        if ($request->session()->has('user')) {
+            echo $request->session()->get('user');
+        } else {
+            echo "Tidak Ada Data";
         }
     }
 
     public function logout(Request $request)
     {
-        session()->forget('isLogged');
-        session()->forget('userId');
-        session()->forget('role');
+        $request->session()->forget('isLogged');
+        $request->session()->forget('user');
+        // session()->forget('userId');
+        // session()->forget('role');
 
-        return redirect()->route('login');
+        return redirect()->route('login')->with('success', 'Anda Telah Logout');
     }
     // -------------------------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------------------------
@@ -65,7 +85,7 @@ class AuthController extends Controller
         // Register Data Validation
         $request->validate([
             'name' => 'required|string',
-            'phone_number' => 'required|string',
+            'phone_number' => 'required|string|unique:users',
             'password' => 'required|string|min:6',
             'kampung' => 'required|string',
             'rt' => 'required|string',

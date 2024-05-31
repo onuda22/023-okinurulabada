@@ -51,11 +51,19 @@ class ProductController extends Controller
         //validate form
         $request->validate([
             'image'         => 'required|image|mimes:jpeg,jpg,png|max:2048',
-            'title'         => 'required|min:5',
-            'description'   => 'required|min:10',
+            'title'         => 'required|min:5', //product_name
+            'description'   => 'required|min:10', //desc
             'price'         => 'required|numeric',
-            'stock'         => 'required|numeric'
+            'stock'         => 'required|numeric',
+            'unit'          => 'required',
+            'weight'        => 'required',
+            'category'      => 'required'
         ]);
+        //Get Id User
+        $user_id = session('user')['id'];
+
+        // Get Unit
+        $unit = $request->unit . " " . $request->weight;
 
         //upload image
         $image = $request->file('image');
@@ -63,11 +71,14 @@ class ProductController extends Controller
 
         //create product
         Product::create([
+            'id_user'       => $user_id,
             'image'         => $image->hashName(),
-            'title'         => $request->title,
-            'description'   => $request->description,
+            'product_name'  => $request->title, //product_name
+            'desc'          => $request->description, // desc
             'price'         => $request->price,
-            'stock'         => $request->stock
+            'stock'         => $request->stock,
+            'unit'          => $unit,
+            'category'      => $request->category
         ]);
 
         //redirect to index
