@@ -19,9 +19,10 @@ Route::get('/products', function () {
 // Route::get('/farmer/addproduct', function () {
 //     return view('farmer.productcreate');
 // })->name('products.create');
-
-// Farmer View Product
-Route::resource('/farmer/products', ProductController::class);
+Route::middleware(['auth'])->group(function () {
+    // Farmer View Product
+    Route::resource('/farmer/products', ProductController::class);
+});
 
 // //route resource for products
 // Route::resource('/products', \App\Http\Controllers\ProductController::class);

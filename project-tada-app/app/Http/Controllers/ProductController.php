@@ -13,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 
 //import Http Request
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class ProductController extends Controller
 {
@@ -23,11 +24,18 @@ class ProductController extends Controller
      */
     public function index(): View
     {
-        //get all products
-        $products = Product::latest()->paginate(10);
+        //get user id
+        $user = session('user');
+        if ($user['id_role'] === 2) {
+            # code...
+            //get all products on user_id
+            $products = Product::where('id_user', $user['id'])->latest()->paginate(10);
 
-        //render view with products
-        return view('products.index', compact('products'));
+            //render view with products
+            return view('products.index', compact('products'));
+        } else {
+            return redirect()->route('home');
+        }
     }
 
     /**
@@ -83,5 +91,20 @@ class ProductController extends Controller
 
         //redirect to index
         return redirect()->route('products.index')->with(['success' => 'Data Berhasil Disimpan!']);
+    }
+
+    /**
+     * show
+     *
+     * @param  mixed $id
+     * @return View
+     */
+    public function show(string $id): View
+    {
+        //get product by ID
+        $product = Product::findOrFail($id);
+
+        //render view with product
+        return view('products.show', compact('product'));
     }
 }

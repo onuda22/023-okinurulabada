@@ -47,7 +47,7 @@ class AuthController extends Controller
                 return redirect()->route('home')->with('success', 'Anda Telah Login');
             }
         } else {
-            dd($user);
+            // dd($user);
             return redirect()->route('login')->with('error', 'Invalid Phone Number or Password');
         }
     }
